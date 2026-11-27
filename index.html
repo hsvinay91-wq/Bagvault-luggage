@@ -2140,6 +2140,71 @@ body::before,body::after{display:none!important;content:none!important}
 }
 </style>
 
+
+<style id="bagvault-ios-android-focus-zoom-final-fix">
+/* Final mobile input fix. Earlier compact page rules set some controls to 15px,
+   which makes iOS Safari zoom the whole page when the field receives focus. */
+html,body{
+  -webkit-text-size-adjust:100%!important;
+  text-size-adjust:100%!important;
+}
+@media (max-width:960px){
+  html,body,#root,.shell,.content,.page{
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  .page input,
+  .page select,
+  .page textarea,
+  .page button,
+  .page .input,
+  .page .select,
+  .page .textarea,
+  .page .dd-btn,
+  .page .search input,
+  .page label>input,
+  .page label>select,
+  .page label>textarea,
+  .auth input,.auth select,.auth textarea{
+    font-size:16px!important;
+    line-height:1.35!important;
+    -webkit-text-size-adjust:100%!important;
+    touch-action:manipulation;
+  }
+  .page input[type="number"],
+  .page input[type="text"],
+  .page input[type="tel"],
+  .page input[type="email"],
+  .page input[type="password"],
+  .page input[type="date"],
+  .page input[type="month"],
+  .page input[type="time"],
+  .page select,.page textarea{
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  /* Keep paired salary controls inside the phone viewport; no horizontal
+     overflow that can make the page appear magnified while the keyboard opens. */
+  .salary-card,.salary-card *{box-sizing:border-box!important;min-width:0!important;}
+  .salary-card .form-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    width:100%!important;max-width:100%!important;
+  }
+  .salary-card .form-grid>*{min-width:0!important;max-width:100%!important;}
+  .salary-card .form-grid input,
+  .salary-card .form-grid select,
+  .salary-card .form-grid textarea{
+    width:100%!important;min-width:0!important;max-width:100%!important;
+  }
+}
+@media (max-width:380px){
+  .salary-card .form-grid{grid-template-columns:minmax(0,1fr)!important;}
+  .salary-card .form-grid .span-2{grid-column:1!important;}
+}
+</style>
+
 </body>
 </html>
 
