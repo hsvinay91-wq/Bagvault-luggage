@@ -1659,3 +1659,65 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
 
 </body>
 </html>
+
+<style id="bagvault-mobile-visibility-dock-zoom-fix-v3">
+@media (max-width: 960px) {
+  /* Keep the app header fully visible above every page layer. */
+  .mobile-top {
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: linear-gradient(115deg,#07182b 0%,#0b2946 58%,#123b60 100%) !important;
+    box-shadow: 0 8px 22px rgba(5,20,38,.22) !important;
+    isolation: isolate !important;
+  }
+  .mobile-top *, .mobile-top .brand, .mobile-top .brand-mark,
+  .mobile-top .brand-name, .mobile-top .brand-sub, .mobile-top-btn {
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    color: inherit;
+  }
+  .mobile-top .brand-name { color:#fff !important; }
+  .mobile-top .brand-sub { color:#f1c66b !important; }
+  .mobile-top .brand-mark { flex:0 0 auto !important; }
+  .mobile-top-btn { color:#fff !important; background:rgba(255,255,255,.08) !important; }
+
+  /* Position the dock in the lower app safe-area instead of floating mid-screen. */
+  .admin-mobile-nav.bottom-nav {
+    position: fixed !important;
+    left: 10px !important;
+    right: 10px !important;
+    bottom: max(112px, calc(env(safe-area-inset-bottom, 0px) + 9.5vh)) !important;
+    z-index: 9999 !important;
+    min-height: 62px !important;
+    height: 62px !important;
+    padding: 4px !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+  .admin-mobile-nav .admin-mobile-nav-item {
+    min-height: 52px !important;
+    height: 52px !important;
+    padding: 3px 1px !important;
+    gap: 2px !important;
+    font-size: clamp(8px, 2.15vw, 10px) !important;
+  }
+  .page {
+    padding-bottom: 190px !important;
+  }
+  /* iOS Safari zooms inputs smaller than 16px on focus. */
+  input, select, textarea, .field input, .field select, .field textarea,
+  .auth-card input, .auth-card select, .auth-card textarea {
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+    touch-action: manipulation !important;
+  }
+}
+@media (max-width: 380px) {
+  .admin-mobile-nav.bottom-nav { left: 7px !important; right: 7px !important; }
+}
+</style>
