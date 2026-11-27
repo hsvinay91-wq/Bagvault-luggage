@@ -1134,11 +1134,11 @@ return z.jsxs("section",{className:"card salary-card",style:{display:"grid",gap:
    z.jsxs("div",{children:[z.jsx("small",{children:"Total deductions"}),z.jsx("strong",{style:{display:"block"},children:money(adv+other)})]}),
    z.jsxs("div",{children:[z.jsx("small",{children:"Net salary payable"}),z.jsx("strong",{style:{display:"block",color:"var(--ok)"},children:money(net)})]})
   ]}),
-  z.jsxs("div",{style:{display:"flex",gap:8,flexWrap:"wrap"},children:[
+  z.jsxs("div",{className:"salary-save-row",style:{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"},children:[
    z.jsx("button",{type:"button",className:"btn btn-primary btn-sm",disabled:saving||loading,onClick:saveProfile,children:saving?"Saving...":"Save Salary"}),
-   z.jsx("button",{type:"button",className:"btn btn-primary btn-sm",disabled:saving||loading||!salary,onClick:savePayslip,children:saving?"Saving...":"Save Payslip"})
+   z.jsx("button",{type:"button",className:"btn btn-primary btn-sm",disabled:saving||loading||!salary,onClick:savePayslip,children:saving?"Saving...":"Save Payslip"}),
+   profileReady&&z.jsxs("small",{className:"salary-saved-inline",children:[z.jsx("span",{"aria-hidden":true,children:"✓"})," Monthly Salary Saved"]})
   ]}),
-  profileReady&&z.jsx("small",{style:{color:"var(--ok)"},children:"Monthly salary saved."}),
   preview&&z.jsxs("div",{className:"payslip-section",children:[
    z.jsxs("div",{className:"payslip-toolbar",children:[
     z.jsx("div",{className:"payslip-actions",children:[
@@ -1194,13 +1194,6 @@ return z.jsxs("section",{className:"card salary-card",style:{display:"grid",gap:
     z.jsx("p",{className:"payslip-note",children:"This is a system-generated salary slip. Please contact the administrator if any detail needs correction."})
    ]})
   ]}),
-  history.length>0&&z.jsxs("section",{className:"payslip-history",children:[
-   z.jsx("h3",{children:"Previous Payslips"}),
-   z.jsx("div",{className:"payslip-history-list",children:history.slice(0,6).map(row=>z.jsxs("button",{type:"button",className:`payslip-history-item ${preview?.id===row.id?"active":""}`,onClick:()=>setPreview(row),children:[
-    z.jsxs("span",{children:[new Date(`${String(row.payroll_month).slice(0,7)}-01T00:00:00`).toLocaleDateString("en-IN",{month:"short",year:"numeric"}),z.jsx("small",{children:String(row.status||"draft").toUpperCase()})]}),
-    z.jsx("strong",{children:money(Number(row.net_salary||0))})
-   ]},row.id))})
-  ]})
  ]});
 }
 
@@ -2149,3 +2142,26 @@ body::before,body::after{display:none!important;content:none!important}
 
 </body>
 </html>
+
+
+<style id="bagvault-salary-history-cleanup-and-global-animated-backdrop">
+/* Salary page: keep the saved confirmation beside the action buttons. */
+.salary-save-row{min-height:42px}
+.salary-saved-inline{display:inline-flex;align-items:center;gap:6px;margin-left:4px;padding:8px 11px;border:1px solid rgba(134,239,172,.38);border-radius:999px;background:rgba(20,83,45,.30);color:#bbf7d0!important;font-size:12px;font-weight:700;line-height:1.25;}
+.salary-saved-inline span{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:rgba(34,197,94,.22);color:#86efac;font-size:12px;}
+/* The background animation is a global app layer, not a Dashboard-only decoration. */
+#bv-bg{position:fixed!important;inset:0 auto auto 0!important;width:100%!important;height:var(--bv-h,100dvh)!important;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:none!important;z-index:0!important;}
+.shell,.content,.page{background:transparent!important;}
+@media(max-width:960px){
+  .shell,.content,.page{background:transparent!important;}
+  .page .card,.page .info-cell,.page .shift-box,.page .step-note,.page .admin-notice{
+    background:rgba(7,21,38,.18)!important;
+    -webkit-backdrop-filter:blur(13px) saturate(1.15)!important;
+    backdrop-filter:blur(13px) saturate(1.15)!important;
+    border-color:rgba(255,255,255,.27)!important;
+  }
+  .page .card{box-shadow:0 12px 30px rgba(2,8,23,.12),inset 0 1px rgba(255,255,255,.10)!important;}
+  .salary-saved-inline{margin-top:2px;}
+}
+@media(prefers-reduced-motion:reduce){#bv-bg .g,#bv-bg .ring,#bv-bg .route path,#bv-bg .ic{animation:none!important;}}
+</style>
