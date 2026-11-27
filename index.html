@@ -2034,5 +2034,41 @@ body::before,body::after{display:none!important;content:none!important}
 })();
 </script>
 
+
+<style id="bagvault-mobile-transparent-header-dock-animation">
+/* Mobile only: let the animated app backdrop show through header and navigation dock */
+@media (max-width:960px){
+  .mobile-top{
+    background:rgba(6,21,43,.10)!important;
+    -webkit-backdrop-filter:blur(7px) saturate(1.15)!important;
+    backdrop-filter:blur(7px) saturate(1.15)!important;
+    box-shadow:inset 0 -1px 0 rgba(233,189,98,.18)!important;
+    border-bottom:1px solid rgba(255,255,255,.10)!important;
+  }
+  .shell .bottom-nav{
+    background:rgba(6,20,42,.12)!important;
+    -webkit-backdrop-filter:blur(8px) saturate(1.15)!important;
+    backdrop-filter:blur(8px) saturate(1.15)!important;
+    border-top:1px solid rgba(255,255,255,.12)!important;
+    box-shadow:0 -8px 24px rgba(2,8,23,.08)!important;
+  }
+  /* Keep the active destination highlighted while the dock itself stays transparent. */
+  .shell .bottom-nav>button.on{
+    background:linear-gradient(150deg,#f7dda0,#e6b84f 60%,#cf9630)!important;
+  }
+  /* Move the decorative rotating vault animation from the top-right to the page centre. */
+  #bv-bg .ring.r1{
+    left:50%!important;right:auto!important;top:49%!important;
+    width:270px!important;height:270px!important;
+    margin-left:-135px!important;margin-top:-135px!important;
+  }
+  #bv-bg .ring.r2{
+    left:50%!important;right:auto!important;top:49%!important;bottom:auto!important;
+    width:205px!important;height:205px!important;
+    margin-left:-102.5px!important;margin-top:-102.5px!important;
+  }
+}
+</style>
+
 </body>
 </html>
