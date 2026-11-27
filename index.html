@@ -843,6 +843,83 @@ select option{color:#17283d;background:#fff}
 }
 </style>
 
+
+<style id="bagvault-salary-mobile-final-polish">
+/* Targeted mobile fixes: keep the Salary Month control inside its card,
+   prevent iOS focus zoom, and refine the bottom dock labels. */
+@media (max-width:960px){
+  .salary-card,
+  .salary-card *{min-width:0}
+  .salary-card .form-grid{
+    width:100%!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    align-items:start!important;
+  }
+  .salary-card .form-grid>.field,
+  .salary-card .form-grid>label.field{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+  }
+  .salary-card .form-grid input,
+  .salary-card .form-grid select,
+  .salary-card .form-grid textarea{
+    display:block!important;width:100%!important;max-width:100%!important;
+    min-width:0!important;box-sizing:border-box!important;
+  }
+  .salary-card input[type="month"]{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    padding-left:10px!important;padding-right:8px!important;
+    font-size:16px!important;-webkit-appearance:none;appearance:none;
+  }
+
+  /* iOS Safari zooms the page when a focused form control is below 16px. */
+  input,select,textarea,
+  .input,.select,.textarea,
+  .field input,.field select,.field textarea,
+  .search input,.dd-btn{
+    font-size:16px!important;
+    touch-action:manipulation;
+  }
+  .salary-card .field{min-width:0!important}
+  .salary-card .info-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .salary-card .info-cell{min-width:0!important;padding:12px!important}
+
+  /* Premium, readable dock labels with a restrained entrance/active animation. */
+  .shell .bottom-nav>button{
+    color:#d4e1ef!important;
+    text-shadow:0 1px 5px #0008;
+    transition:color .28s ease,filter .28s ease,transform .28s cubic-bezier(.2,.8,.2,1)!important;
+  }
+  .shell .bottom-nav>button .icon{
+    color:#c1d2e5!important;
+    filter:drop-shadow(0 2px 4px #0005);
+    transition:color .28s ease,transform .32s cubic-bezier(.2,.8,.2,1),filter .28s ease!important;
+  }
+  .shell .bottom-nav>button.on{
+    color:#071526!important;text-shadow:none!important;
+    animation:bvNavActive .38s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .shell .bottom-nav>button.on .icon{
+    color:#071526!important;transform:translateY(-2px) scale(1.06);
+    filter:drop-shadow(0 1px 1px #ffffff66);
+  }
+  .shell .bottom-nav>button:active{transform:scale(.95)!important}
+}
+@keyframes bvNavActive{
+  0%{filter:brightness(.9);transform:scale(.96)}
+  65%{filter:brightness(1.08);transform:scale(1.025)}
+  100%{filter:brightness(1);transform:scale(1)}
+}
+@media(max-width:560px){
+  .salary-card .form-grid{grid-template-columns:minmax(0,1fr)!important}
+  .salary-card .info-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .salary-card input[type="month"]{padding-left:12px!important;padding-right:6px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .shell .bottom-nav>button,.shell .bottom-nav>button .icon{transition:none!important}
+  .shell .bottom-nav>button.on{animation:none!important}
+}
+</style>
+
 </head>
 <body>
 <div id="root"></div>
