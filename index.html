@@ -1501,6 +1501,33 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
     #bv-feature-panel .bvfc-item{padding:8px;margin:6px 0}
     #bv-feature-panel .bvfc-empty{padding:12px}
   }
+  /* Employee feature launcher and modal layout */
+  #bv-feature-panel .bvfc-home-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  #bv-feature-panel .bvfc-home-card{min-width:0;width:100%;min-height:88px;padding:12px;border:1px solid #ffffff20;border-radius:13px;background:#10263b;color:#edf4fb;text-align:left;display:flex;flex-direction:column;gap:5px;position:relative}
+  #bv-feature-panel .bvfc-home-card strong{font:750 13px/1.25 system-ui;overflow-wrap:anywhere}
+  #bv-feature-panel .bvfc-home-card small{font:11px/1.3 system-ui;color:#aebfd0}
+  #bv-feature-panel .bvfc-home-icon{font-size:19px}
+  #bv-feature-panel .bvfc-home-arrow{position:absolute;right:10px;top:8px;color:#d7a94f;font-size:20px}
+  #bv-feature-backdrop{padding:0;align-items:center;justify-content:center}
+  #bv-feature-backdrop #bv-feature-panel{width:min(720px,calc(100vw - 28px));max-height:min(88dvh,850px);margin:0;border-radius:18px;background:#0d2237 !important;box-shadow:0 20px 70px #0009;overflow:hidden}
+  #bv-feature-backdrop .bvfc-body{overflow:auto;min-height:0;max-height:calc(88dvh - 76px);overscroll-behavior:contain}
+  #bv-feature-backdrop .bvfc-tabs:empty{display:none}
+  @media(max-width:600px){
+    #bv-feature-panel .bvfc-home-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+    #bv-feature-panel .bvfc-home-card{min-height:82px;padding:10px}
+    #bv-feature-panel .bvfc-home-card strong{font-size:11px}
+    #bv-feature-panel .bvfc-home-card small{font-size:10px}
+    #bv-feature-backdrop{padding:12px 10px calc(12px + env(safe-area-inset-bottom,0px))}
+    #bv-feature-backdrop #bv-feature-panel{width:100%;max-height:calc(100dvh - 24px - env(safe-area-inset-bottom,0px));border-radius:17px}
+    #bv-feature-backdrop .bvfc-head{padding:12px 14px;flex:0 0 auto}
+    #bv-feature-backdrop .bvfc-head h2{font-size:16px}
+    #bv-feature-backdrop .bvfc-body{padding:10px;max-height:calc(100dvh - 100px - env(safe-area-inset-bottom,0px))}
+    #bv-feature-backdrop .bvfc-grid{grid-template-columns:minmax(0,1fr)}
+    #bv-feature-backdrop .bvfc-field{margin:7px 0}
+    #bv-feature-backdrop .bvfc-field input,#bv-feature-backdrop .bvfc-field select,#bv-feature-backdrop .bvfc-field textarea{min-height:40px;padding:9px 10px;font-size:14px}
+    #bv-feature-backdrop .bvfc-field textarea{min-height:66px}
+  }
+
   `;
   const style=document.createElement("style");style.textContent=css;document.head.appendChild(style);
 
@@ -1556,18 +1583,11 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
     ["leave-admin","Leave Approvals"],["corrections-admin","Attendance Corrections"],
     ["balances","Leave Balances"],["announcements-admin","Announcements"],["shifts","Shift Management"]
   ];
-  function activeBody(){return mode==="employee"&&inlineBody?inlineBody:body}
-  function activeTabs(){return mode==="employee"&&inlineTabs?inlineTabs:tabs}
+  function activeBody(){return body}
+  function activeTabs(){return tabs}
   function tabBar(){
     const list=mode==="admin"?adminTabs:employeeTabs, target=activeTabs();
-    if(mode==="employee"&&inlineRoot){
-      target.innerHTML="";
-      const labels={"leave":"Leave / Permission","corrections":"Attendance Correction","announcements":"Announcements","notifications":"Notifications"};
-      inlineRoot.querySelector(".bvfc-inline-close").hidden=false;
-      inlineRoot.querySelector("#bvfc-inline-title").textContent=labels[activeTab]||"Employee Services";
-      inlineRoot.querySelector("#bvfc-inline-subtitle").textContent="View details and manage your request";
-      return;
-    }
+    if(mode==="employee"){target.innerHTML="";return;}
     target.innerHTML=list.map(([id,label])=>`<button type="button" class="bvfc-tab ${activeTab===id?"active":""}" data-tab="${id}">${label}</button>`).join("");
     target.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>openTab(b.dataset.tab)));
   }
@@ -1582,6 +1602,14 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
   }
   function formCard(title,inner,submit,label){
     return `<section class="bvfc-card"><h3>${title}</h3><form data-form="${submit}">${inner}<div class="bvfc-actions"><button class="bvfc-btn" type="submit">${label}</button></div></form></section>`;
+  }
+  async function openEmployeeFeature(tab){
+    activeTab=tab;
+    backdrop.style.display="flex";
+    const labels={"leave":"Leave / Permission","corrections":"Attendance Correction","announcements":"Announcements","notifications":"Notifications"};
+    document.getElementById("bvfc-title").textContent=labels[tab]||"Employee Services";
+    document.getElementById("bvfc-subtitle").textContent="View details and manage your request";
+    await openTab(tab);
   }
   async function openTab(tab){
     activeTab=tab;tabBar();const target=activeBody();target.innerHTML=`<div class="bvfc-empty">Loading…</div>`;
@@ -1749,7 +1777,7 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
         <button type="button" class="bvfc-home-card" data-open-feature="announcements"><span class="bvfc-home-icon">📢</span><strong>Announcements</strong><small>Company updates and notices</small><span class="bvfc-home-arrow">›</span></button>
         <button type="button" class="bvfc-home-card" data-open-feature="notifications"><span class="bvfc-home-icon">🔔</span><strong>Notifications</strong><small>Your alerts and updates</small><span class="bvfc-home-arrow">›</span></button>
       </div>`;
-    inlineBody.querySelectorAll("[data-open-feature]").forEach(btn=>btn.addEventListener("click",()=>openTab(btn.dataset.openFeature)));
+    inlineBody.querySelectorAll("[data-open-feature]").forEach(btn=>btn.addEventListener("click",()=>openEmployeeFeature(btn.dataset.openFeature)));
   }
   function buildInlineEmployeePanel(host){
     if(inlineRoot && inlineRoot.isConnected) return;
