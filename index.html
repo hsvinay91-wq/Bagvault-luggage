@@ -1432,15 +1432,23 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
   const css = `
   #bv-feature-launch{position:fixed;right:16px;bottom:calc(94px + env(safe-area-inset-bottom,0px));z-index:99990;border:1px solid #e2b85e88;border-radius:999px;padding:12px 16px;background:linear-gradient(135deg,#e6bd68,#b98535);color:#142033;font:800 13px system-ui;box-shadow:0 12px 30px #0005;cursor:pointer}
   #bv-feature-backdrop{position:fixed;inset:0;z-index:99999;background:#020914b8;backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;padding:12px}
-  #bv-feature-panel{width:100%;overflow:hidden;display:flex;flex-direction:column;background:linear-gradient(145deg,#0b1b2c,#102b46);color:#eaf1f8;border:1px solid #d7a94f55;border-radius:18px;box-shadow:0 18px 42px #07152625;margin-top:22px}
+  #bv-feature-panel{width:100%;overflow:hidden;display:flex;flex-direction:column;background:transparent !important;color:#eaf1f8;border:1px solid #d7a94f55;border-radius:18px;box-shadow:none;margin-top:22px}
   #bv-feature-panel .bvfc-body{max-height:none;min-height:0}
+  #bv-feature-panel .bvfc-head{background:transparent}
+  #bv-feature-panel .bvfc-tabs{justify-content:flex-start}
+  @media(max-width:600px){
+    #bv-feature-panel{margin-top:16px;border-radius:14px}
+    #bv-feature-panel .bvfc-tabs{padding:10px;gap:7px}
+    #bv-feature-panel .bvfc-tab{flex:1 1 calc(50% - 7px);max-width:100%;font-size:12px;padding:10px 8px}
+    #bv-feature-panel .bvfc-body{padding:10px}
+  }
   #bv-feature-panel .bvfc-head{padding:16px 18px}
   #bv-feature-panel *{box-sizing:border-box}
   .bvfc-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid #ffffff18;gap:12px}
   .bvfc-head h2{font:800 17px system-ui;margin:0}.bvfc-head p{font:12px system-ui;color:#9db0c4;margin:4px 0 0}
   .bvfc-close{border:0;border-radius:10px;padding:8px 11px;background:#ffffff14;color:#fff;font-size:18px}
-  .bvfc-tabs{display:flex;gap:7px;padding:10px 14px;overflow-x:auto;border-bottom:1px solid #ffffff18}
-  .bvfc-tab{white-space:nowrap;border:1px solid #ffffff20;border-radius:999px;background:#10263b;color:#b9c8d8;padding:9px 12px;font:700 12px system-ui}
+  .bvfc-tabs{display:flex;flex-wrap:wrap;gap:7px;padding:10px 14px;overflow-x:visible;border-bottom:1px solid #ffffff18}
+  .bvfc-tab{flex:1 1 auto;min-width:0;white-space:normal;text-align:center;line-height:1.25;border:1px solid #ffffff20;border-radius:999px;background:#10263b;color:#b9c8d8;padding:9px 10px;font:700 12px system-ui}
   .bvfc-tab.active{background:#d7a94f;color:#172437;border-color:#d7a94f}
   .bvfc-body{overflow:auto;-webkit-overflow-scrolling:touch;padding:14px;min-height:180px}
   .bvfc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -1461,6 +1469,38 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
   .bvfc-pill.pending{background:#59451f;color:#ffe0a0}.bvfc-pill.approved{background:#174b3b;color:#aaf0ce}.bvfc-pill.rejected{background:#542b32;color:#ffc2c8}
   .bvfc-empty{padding:22px;text-align:center;color:#9eb0c2;font:13px system-ui}
   @media(max-width:600px){#bv-feature-backdrop{padding:0;align-items:flex-end}#bv-feature-panel{max-height:92dvh;border-radius:20px 20px 0 0}.bvfc-grid{grid-template-columns:1fr}.bvfc-body{padding:11px}.bvfc-head{padding:13px 14px}}
+  #bv-feature-panel .bvfc-head-copy{min-width:0}
+  #bv-feature-panel .bvfc-inline-close{flex:0 0 auto;white-space:nowrap;cursor:pointer}
+  #bv-feature-panel .bvfc-home-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  #bv-feature-panel .bvfc-home-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-height:112px;padding:16px;border:1px solid #ffffff20;border-radius:15px;background:#10263b;color:#edf4fb;text-align:left;cursor:pointer}
+  #bv-feature-panel .bvfc-home-card strong{font:750 14px system-ui}
+  #bv-feature-panel .bvfc-home-card small{font:12px/1.35 system-ui;color:#aebfd0}
+  #bv-feature-panel .bvfc-home-icon{font-size:22px}
+  #bv-feature-panel .bvfc-home-arrow{position:absolute;right:14px;top:12px;color:#d7a94f;font-size:22px}
+  #bv-feature-panel .bvfc-body{overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+  #bv-feature-panel .bvfc-card{margin-bottom:8px;padding:11px}
+  #bv-feature-panel .bvfc-field{gap:4px;margin:6px 0}
+  #bv-feature-panel .bvfc-field input,#bv-feature-panel .bvfc-field select,#bv-feature-panel .bvfc-field textarea{padding:9px 10px;min-height:38px}
+  #bv-feature-panel .bvfc-field textarea{min-height:58px}
+  @media(max-width:600px){
+    #bv-feature-panel{width:100%;margin:0;border-radius:14px;max-height:none}
+    #bv-feature-panel .bvfc-head{padding:10px 12px}
+    #bv-feature-panel .bvfc-head h2{font-size:15px}
+    #bv-feature-panel .bvfc-head p{font-size:11px}
+    #bv-feature-panel .bvfc-body{padding:9px;max-height:none;min-height:0}
+    #bv-feature-panel .bvfc-home-grid{grid-template-columns:1fr 1fr;gap:8px}
+    #bv-feature-panel .bvfc-home-card{min-height:98px;padding:11px}
+    #bv-feature-panel .bvfc-home-card strong{font-size:12px}
+    #bv-feature-panel .bvfc-home-card small{font-size:10px}
+    #bv-feature-panel .bvfc-inline-close{font-size:12px;padding:7px 9px}
+    #bv-feature-panel .bvfc-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    #bv-feature-panel .bvfc-card h3{font-size:13px}
+    #bv-feature-panel .bvfc-field label{font-size:11px}
+    #bv-feature-panel .bvfc-field input,#bv-feature-panel .bvfc-field select,#bv-feature-panel .bvfc-field textarea{font-size:13px;min-height:35px;padding:8px}
+    #bv-feature-panel .bvfc-field textarea{min-height:50px}
+    #bv-feature-panel .bvfc-item{padding:8px;margin:6px 0}
+    #bv-feature-panel .bvfc-empty{padding:12px}
+  }
   `;
   const style=document.createElement("style");style.textContent=css;document.head.appendChild(style);
 
@@ -1484,11 +1524,15 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
   async function employeeCall(action,extra={}){
     if(!employeeSession?.mobileNumber||!employeeSession?.sessionToken)throw Error("Employee session not found. Please sign in again.");
     const {data,error}=await Ba.functions.invoke("employee-workspace",{body:{action,mobile_number:employeeSession.mobileNumber,session_token:employeeSession.sessionToken,...extra}});
-    if(error)throw error;if(!data?.success)throw Error(data?.error||"Employee request failed.");return data;
+    if(error)throw await Za(error);
+    if(!data?.success)throw Error(data?.error||"Employee request failed.");
+    return data;
   }
   async function adminCall(action,extra={}){
     const {data,error}=await Ba.functions.invoke("admin-device-management",{body:{action,...extra}});
-    if(error)throw error;if(!data?.success)throw Error(data?.error||"Admin request failed.");return data;
+    if(error)throw await Za(error);
+    if(!data?.success)throw Error(data?.error||"Admin request failed.");
+    return data;
   }
   async function detectMode(){
     try{
@@ -1516,6 +1560,14 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
   function activeTabs(){return mode==="employee"&&inlineTabs?inlineTabs:tabs}
   function tabBar(){
     const list=mode==="admin"?adminTabs:employeeTabs, target=activeTabs();
+    if(mode==="employee"&&inlineRoot){
+      target.innerHTML="";
+      const labels={"leave":"Leave / Permission","corrections":"Attendance Correction","announcements":"Announcements","notifications":"Notifications"};
+      inlineRoot.querySelector(".bvfc-inline-close").hidden=false;
+      inlineRoot.querySelector("#bvfc-inline-title").textContent=labels[activeTab]||"Employee Services";
+      inlineRoot.querySelector("#bvfc-inline-subtitle").textContent="View details and manage your request";
+      return;
+    }
     target.innerHTML=list.map(([id,label])=>`<button type="button" class="bvfc-tab ${activeTab===id?"active":""}" data-tab="${id}">${label}</button>`).join("");
     target.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>openTab(b.dataset.tab)));
   }
@@ -1686,14 +1738,31 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
   }
   body.addEventListener("submit",handleFeatureSubmit);
 
+  function showEmployeeFeatureHome(){
+    if(!inlineBody) return;
+    activeTab="";
+    inlineTabs.innerHTML="";
+    inlineBody.innerHTML=`
+      <div class="bvfc-home-grid">
+        <button type="button" class="bvfc-home-card" data-open-feature="leave"><span class="bvfc-home-icon">📅</span><strong>Leave / Permission</strong><small>Apply and view leave requests</small><span class="bvfc-home-arrow">›</span></button>
+        <button type="button" class="bvfc-home-card" data-open-feature="corrections"><span class="bvfc-home-icon">🕒</span><strong>Attendance Correction</strong><small>Request attendance updates</small><span class="bvfc-home-arrow">›</span></button>
+        <button type="button" class="bvfc-home-card" data-open-feature="announcements"><span class="bvfc-home-icon">📢</span><strong>Announcements</strong><small>Company updates and notices</small><span class="bvfc-home-arrow">›</span></button>
+        <button type="button" class="bvfc-home-card" data-open-feature="notifications"><span class="bvfc-home-icon">🔔</span><strong>Notifications</strong><small>Your alerts and updates</small><span class="bvfc-home-arrow">›</span></button>
+      </div>`;
+    inlineBody.querySelectorAll("[data-open-feature]").forEach(btn=>btn.addEventListener("click",()=>openTab(btn.dataset.openFeature)));
+  }
   function buildInlineEmployeePanel(host){
     if(inlineRoot && inlineRoot.isConnected) return;
     inlineRoot=document.createElement("section");inlineRoot.id="bv-feature-panel";
-    inlineRoot.innerHTML=`<header class="bvfc-head"><div><h2>Leave, Requests & Updates</h2><p>Apply for leave, correct attendance and view company updates</p></div></header><nav class="bvfc-tabs" id="bvfc-inline-tabs"></nav><main class="bvfc-body" id="bvfc-inline-body"><div class="bvfc-empty">Loading…</div></main>`;
+    inlineRoot.innerHTML=`<header class="bvfc-head"><div class="bvfc-head-copy"><h2 id="bvfc-inline-title">Employee Services</h2><p id="bvfc-inline-subtitle">Choose a service to continue</p></div><button class="bvfc-close bvfc-inline-close" type="button" aria-label="Back to services" hidden>← Back</button></header><nav class="bvfc-tabs" id="bvfc-inline-tabs" hidden></nav><main class="bvfc-body" id="bvfc-inline-body"><div class="bvfc-empty">Loading…</div></main>`;
     inlineTabs=inlineRoot.querySelector("#bvfc-inline-tabs");inlineBody=inlineRoot.querySelector("#bvfc-inline-body");
     inlineBody.addEventListener("submit",handleFeatureSubmit);
+    inlineRoot.querySelector(".bvfc-inline-close").addEventListener("click",showEmployeeFeatureHome);
     host.appendChild(inlineRoot);inlineMounted=true;
-    detectMode().then(ok=>{if(ok&&mode==="employee"){activeTab="leave";tabBar();openTab(activeTab)}else{inlineBody.innerHTML='<div class="bvfc-alert error">Please sign in to your employee account to use these features.</div>'}});
+    detectMode().then(ok=>{
+      if(ok&&mode==="employee"){showEmployeeFeatureHome();}
+      else{inlineBody.innerHTML='<div class="bvfc-alert error">Please sign in to your employee account to use these features.</div>';}
+    });
   }
   function syncEmployeeAttendancePage(){
     const page=document.querySelector(".page");if(!page)return;
