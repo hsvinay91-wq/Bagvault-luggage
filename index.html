@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 <meta name="theme-color" content="#030b16" />
 <title>BagVault | Smart Luggage Storage</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23d4a24c'/%3E%3Ctext x='50' y='70' font-size='62' font-weight='800' text-anchor='middle' fill='%23071526' font-family='Arial'%3EB%3C/text%3E%3C/svg%3E" />
@@ -1529,6 +1529,8 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
   }
 
   `;
+
+  const mobileFixStyle=document.createElement("style");mobileFixStyle.textContent='  #bv-feature-backdrop #bv-feature-panel{display:flex;flex-direction:column;overflow:hidden;position:relative}\n  #bv-feature-backdrop #bv-feature-panel>.bvfc-head{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;min-height:62px;background:#10263b !important;border-bottom:1px solid #ffffff24;padding:12px 14px;flex:0 0 auto}\n  #bv-feature-backdrop #bv-feature-panel>.bvfc-head>div{min-width:0;flex:1}\n  #bv-feature-backdrop #bv-feature-panel>.bvfc-head .bvfc-close{display:inline-flex!important;visibility:visible!important;opacity:1!important;align-items:center;justify-content:center;min-width:42px;min-height:42px;margin-left:10px;position:relative;z-index:40;background:#d7a94f;color:#102238;font-size:24px;font-weight:800;line-height:1;border-radius:12px;flex:0 0 42px}\n  #bv-feature-backdrop #bv-feature-panel>.bvfc-body{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden}\n  #bv-feature-panel .bvfc-home-grid{width:100%;grid-template-columns:repeat(2,minmax(0,1fr));}\n  #bv-feature-panel .bvfc-home-card{width:100%;min-width:0;max-width:100%;overflow:hidden;word-break:normal;overflow-wrap:anywhere}\n  #bv-feature-panel .bvfc-home-card strong,#bv-feature-panel .bvfc-home-card small{max-width:100%;white-space:normal;overflow-wrap:anywhere}\n  html,body{max-width:100%;overflow-x:hidden;overscroll-behavior-x:none}\n  @media(max-width:600px){\n    #bv-feature-panel .bvfc-home-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}\n    #bv-feature-panel .bvfc-home-card{min-height:86px;padding:9px}\n    #bv-feature-panel .bvfc-home-card strong{font-size:11px;line-height:1.25}\n    #bv-feature-panel .bvfc-home-card small{font-size:9px;line-height:1.25}\n    #bv-feature-backdrop #bv-feature-panel{width:calc(100vw - 20px);max-width:calc(100vw - 20px);height:min(86dvh,760px);max-height:calc(100dvh - 24px - env(safe-area-inset-bottom,0px));}\n    #bv-feature-backdrop #bv-feature-panel>.bvfc-head{min-height:60px;padding:9px 11px}\n    #bv-feature-backdrop #bv-feature-panel>.bvfc-head h2{font-size:15px;line-height:1.25}\n    #bv-feature-backdrop #bv-feature-panel>.bvfc-head p{font-size:10px}\n    #bv-feature-backdrop #bv-feature-panel>.bvfc-head .bvfc-close{min-width:40px;min-height:40px;flex-basis:40px}\n    #bv-feature-backdrop #bv-feature-panel>.bvfc-body{max-height:none;padding:9px}\n  }\n\n';document.head.appendChild(mobileFixStyle);
   const style=document.createElement("style");style.textContent=css;document.head.appendChild(style);
 
   const launch=document.createElement("button");
@@ -1724,6 +1726,12 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
     document.getElementById("bvfc-subtitle").textContent=mode==="admin"?"Review requests, configure leave, publish notices and update shifts":"Apply for leave, request attendance corrections and view updates";
     activeTab=mode==="admin"?"leave-admin":"leave";tabBar();await openTab(activeTab);
   }
+  // Disable multi-touch zoom while preserving ordinary one-finger scrolling.
+  document.addEventListener("touchstart",function(e){if(e.touches&&e.touches.length>1)e.preventDefault();},{passive:false});
+  document.addEventListener("gesturestart",function(e){e.preventDefault();},{passive:false});
+  document.addEventListener("gesturechange",function(e){e.preventDefault();},{passive:false});
+  document.addEventListener("gestureend",function(e){e.preventDefault();},{passive:false});
+
   launch.addEventListener("click",openPanel);
   backdrop.querySelector(".bvfc-close").addEventListener("click",()=>backdrop.style.display="none");
   backdrop.addEventListener("click",e=>{if(e.target===backdrop)backdrop.style.display="none"});
@@ -1800,11 +1808,18 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
     const host=attendanceCard?.parentElement;if(host)buildInlineEmployeePanel(host);
   }
   // Observe only the employee page content, not the whole React tree.
+  let employeePageObserver=null;
   function installEmployeePageObserver(){
-    const page=document.querySelector(".page");if(!page)return false;
-    const observer=new MutationObserver(syncEmployeeAttendancePage);
-    observer.observe(page,{childList:true,subtree:true});
-    syncEmployeeAttendancePage();return true;
+    if(!document.body)return false;
+    if(!employeePageObserver){
+      employeePageObserver=new MutationObserver(()=>{
+        const page=document.querySelector(".page");
+        if(page) syncEmployeeAttendancePage();
+      });
+      employeePageObserver.observe(document.body,{childList:true,subtree:true});
+    }
+    syncEmployeeAttendancePage();
+    return true;
   }
   function mountAdminLauncher(){
     const sidebar=document.querySelector(".sidebar");
