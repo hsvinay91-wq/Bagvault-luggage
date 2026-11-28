@@ -1686,9 +1686,27 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
   async function openTab(tab){
     activeTab=tab;tabBar();const target=activeBody();target.innerHTML=`<div class="bvfc-empty">Loading…</div>`;
     try{
-      if(mode==="employee") await renderEmployee(tab);
-      else await renderAdmin(tab);
+      if(mode==="employee"){
+        await markEmployeeFeatureNotificationsRead(tab);
+        await renderEmployee(tab);
+        refreshEmployeeHomeCounts();
+      }else await renderAdmin(tab);
     }catch(e){target.innerHTML=`<div class="bvfc-alert error">${esc(e.message||"Unable to load this section.")}</div>`;}
+  }
+  async function markEmployeeFeatureNotificationsRead(tab){
+    const patterns={
+      leave:/leave|permission|early.checkout/i,
+      corrections:/correction|attendance/i,
+      announcements:/announcement/i,
+      notifications:/.*/
+    };
+    const pattern=patterns[tab];
+    if(!pattern)return;
+    const result=await employeeCall("notifications_list");
+    const unread=(result.notifications||[]).filter(n=>!n.is_read&&pattern.test(String(n.notification_type||"")+" "+String(n.title||"")+" "+String(n.message||"")));
+    for(const item of unread){
+      await employeeCall("notification_read",{notification_id:item.id});
+    }
   }
   async function renderEmployee(tab){
     const body=activeBody();
@@ -1867,9 +1885,9 @@ function ro(){let[e,t]=(0,l.useState)(`admin`),[n,r]=(0,l.useState)(``),[i,a]=(0
       const announcementNotifications=unread.filter(n=>/announcement/.test(typeOf(n))).length;
       setCount("leave",leaveCount);
       setCount("corrections",correctionCount);
-      // Active announcements are counted here because the current announcement
-      // listing has no per-employee read marker; notification count takes priority.
-      setCount("announcements",announcementNotifications||announcements.length);
+      // Announcement badge is read-state based; active announcements remain visible
+      // in the page but do not keep the badge alive after the employee views them.
+      setCount("announcements",announcementNotifications);
       setCount("notifications",unread.length);
     }catch(e){
       // Keep the launcher usable if a count endpoint is temporarily unavailable.
